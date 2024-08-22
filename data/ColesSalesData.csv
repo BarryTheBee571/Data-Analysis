@@ -1,4 +1,4 @@
-,Coles_StoreIDNo,Expec_Revenue,Gross_Sale,Sales_Cost,Targeted_Quarter,Coles_Forecast
+,Coles_StoreID,Expec_Revenue,Gross Sales,Sales_Cost,Targeted_Quarter,Coles_Forecast
 1,C524,39,56,6,Q2 2023,On Target
 2,C624,22,55,7,Q1 2023,On Target
 3,C460,36,51,7,Q1 2023,On Target

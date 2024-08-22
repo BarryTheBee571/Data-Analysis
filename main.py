@@ -1,68 +1,77 @@
-#Edit of code
-#----Modules----#
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#----Global Variables----#
-quit = False
+quit_program = False
 
-#----Setup dataframe and query it here prior to creating visualisation and UI functions----#
-original_df = pd.read_csv('data/ColesSalesData.csv')
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
 
-sales_data_df = pd.read_csv('data/ColesSalesData.csv')
+sales_df = pd.read_csv('data/ColesSalesData.csv')
+store_df = pd.read_csv('data/ColesStoreData.csv')
 
-df1 = pd.read_csv('ColesSalesData.csv')
-df2 = pd.read_csv('ColesStoreData.csv')
-merged_df = pd.merge(df1, df2, on='merge_key', how='left')   
+combined_df = pd.merge(sales_df, store_df, on='Coles_StoreID')
 
-#----Define Functions Below----#
-def showOriginalData():
-    print(original_df)
+def showSalesData():
+    print(sales_df.to_string())
 
-def showUpdatedData():
-    print(sales_data_df)
+def showStoreData():
+    print(store_df.to_string())
 
-def showCharts():
-    sales_data_df.plot(
-                    kind='bar',
-                    x='Country',
-                    y='AUD',
-                    color='blue',
-                    alpha=0.3,
-                    title='Customer impact on sales')
+def showCombinedData():
+    print(combined_df.to_string())
+
+def showChartsLocation():
+    combined_df.plot(kind='scatter', x='Store Location', y='Gross Sales', color='red', label='Sales')
+    plt.title('Coles Sales Data by Store Location')
+    plt.show()
+    
+def showChartsCustomers():
+    combined_df.plot(kind='scatter', x='Customer Count', y='Gross Sales', color='red', label='Sales')
+    plt.title('Coles Sales Data by Customer Count')
+    plt.show()
+
+def showChartsStaff():
+    combined_df.plot(kind='scatter', x='Staff Count', y='Gross Sales', color='red', label='Sales')
+    plt.title('Coles Sales Data by Staff Count')
     plt.show()
 
 def userOptions():
-    global quit
-
-    print("""Welcome to the Big Mac Data Extraordinaire!
+    global quit_program
+    print("""Welcome to the Coles Sales Data Visualisation Program
           
     Please select an option:
-    1 - Show the original dataset
-    2 - Show the updated Data Frame
-    3 - Visualise the cost of a big mac in AUD
-    4 - Quit Program
+    1 - Show the Sales dataset
+    2 - Show the Store dataset
+    3 - Show the Combined DataFrame
+    4 - Visualise Sales x Location Data
+    5 - Visualise Sales x Customers Data
+    6 - Visualise Sales x Staff Data
+    7 - Quit Program
         """)
     
-    try:
-        choice = int(input('Enter Selection: '))
+    choice = input('Enter Selection: ').strip()
 
+    if choice.isdigit():
+        choice = int(choice)
         if choice == 1:
-            showOriginalData()
+            showSalesData()
         elif choice == 2:
-            showUpdatedData()
+            showStoreData()
         elif choice == 3:
-            showCharts()
+            showCombinedData()
         elif choice == 4:
-            quit = True
+            showChartsLocation()
+        elif choice == 5:
+            showChartsCustomers()
+        elif choice == 6:
+            showChartsStaff()
+        elif choice == 7:
+            print("Exiting program.")
+            quit_program = True
         else:
-            print('A number between 1 and 4, come on!')
+            print('Please select a number between 1 and 7.')
+    else:
+        print('Invalid input, please enter a number.')
 
-    except:
-        print('Enter a number, it is not that hard.')
-
-   
-
-#----Main program----#
-while not quit:
+while not quit_program:
     userOptions()
